@@ -1,41 +1,50 @@
 [profile.default]
-src = 'contracts'
-out = 'out'
-libs = ['lib']
+src = "contracts"
+out = "out"
+libs = ["lib"]
 fs_permissions = [{ access = "read-write", path = "./"}]
 
-
+# ==============
+# 🔗 RPC Endpoints
+# ==============
 [rpc_endpoints]
-default_network = "http://127.0.0.1:8545"
-
-mainnet = "https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}"
-sepolia = "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-arbitrum = "https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-arbitrumSepolia = "https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-optimism = "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-optimismSepolia = "https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-polygon = "https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-polygonMumbai = "https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
-polygonZkEvm = "https://zkevm-rpc.com"
-polygonZkEvmTestnet = "https://rpc.public.zkevm-test.net"
-gnosis = "https://rpc.gnosischain.com"
-chiado = "https://rpc.chiadochain.net"
-base = "https://mainnet.base.org"
-baseSepolia = "https://sepolia.base.org"
-scrollSepolia = "https://sepolia-rpc.scroll.io"
-scroll = "https://rpc.scroll.io"
-pgn = "https://rpc.publicgoods.network"
-pgnTestnet = "https://sepolia.publicgoods.network"
-
-
 localhost = "http://127.0.0.1:8545"
 
+# 🌍 Mainnet Endpoints
+mainnet = "https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}"
+arbitrum = "https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimism = "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygon = "https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+gnosis = "https://rpc.gnosischain.com"
+base = "https://mainnet.base.org"
+scroll = "https://rpc.scroll.io"
+pgn = "https://rpc.publicgoods.network"
+
+# 🧪 Testnet Endpoints
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+arbitrumSepolia = "https://arb-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimismSepolia = "https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygonMumbai = "https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygonZkEvmTestnet = "https://rpc.public.zkevm-test.net"
+chiado = "https://rpc.chiadochain.net"
+baseSepolia = "https://sepolia.base.org"
+scrollSepolia = "https://sepolia-rpc.scroll.io"
+pgnTestnet = "https://sepolia.publicgoods.network"
+
+# ==============
+# 🔍 Block Explorer API Keys (for contract verification)
+# ==============
 [etherscan]
-polygonMumbai = { key = "${ETHERSCAN_API_KEY}" }
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
+arbitrum = { key = "${ETHERSCAN_API_KEY}" }
+optimism = { key = "${ETHERSCAN_API_KEY}" }
+polygon = { key = "${ETHERSCAN_API_KEY}" }
+polygonMumbai = { key = "${ETHERSCAN_API_KEY}" }
 
-
-
+# ==============
+# 🔧 Formatting Options
+# ==============
 [fmt]
 line_length = 120
 tab_width = 4
@@ -43,7 +52,11 @@ quote_style = "double"
 bracket_spacing = true
 int_types = "long"
 
+# ===================
+# 📌 Notes:
+# ===================
+# - Make sure your `.env` file contains the correct `ALCHEMY_API_KEY` and `ETHERSCAN_API_KEY`.
+# - Never commit `.env` files to Git.
+# - Use `source .env` before running foundry scripts.
 
-
-
-# See more config options https://book.getfoundry.sh/reference/config/overview
+# ✅ For more options, check: https://book.getfoundry.sh/reference/config/overview
