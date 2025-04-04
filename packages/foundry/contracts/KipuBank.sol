@@ -47,13 +47,9 @@ contract KipuBank {
 
     /**
      * @notice The constructor sets the KipuBank cap.
-     * @param / _deployer / The address of the deployer. Requered by Scaffold to running locally.
      * @param _bankCap The KipuBank cap. This is the maximum amount of ETH that can be all users deposited in the KipuBank.
      */
-    constructor(
-        address /* _deployer */,
-        uint256 _bankCap
-    ) {
+    constructor(uint256 _bankCap) {
         i_bankCap = _bankCap;
     }
 
