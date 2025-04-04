@@ -4,18 +4,32 @@ pragma solidity ^0.8.26;
 import "forge-std/Test.sol";
 import "../contracts/KipuBank.sol";
 
+/**
+ * @title KipuBankTest
+ * @dev This contract contains unit tests for the KipuBank contract using Foundry's test framework.
+ */
 contract KipuBankTest is Test {
     KipuBank public kipuBank;
+
+    /// @dev Simulated user address
     address public user = address(0x1);
+
+    /// @dev Initial ETH balance assigned to the user for testing
     uint256 public initialBalance = 15 ether;
+
+    /// @dev Maximum allowed total deposits in the bank
     uint256 public constant BANK_CAP = 10 ether;
+
+    /// @dev Maximum allowed withdrawal per transaction
     uint256 public constant WITHDRAW_LIMIT = 1 ether;
 
+    /// @dev Sets up the environment before each test. Deploys a new KipuBank instance and funds the user.
     function setUp() public {
-        kipuBank = new KipuBank(user, BANK_CAP);
+        kipuBank = new KipuBank(BANK_CAP);
         vm.deal(user, initialBalance);
     }
-
+    
+    /// @dev Tests that a user can deposit ETH into the KipuBank and the event is emitted.
     function testDeposit() public {
         uint256 _deposit = 2 ether;
 
@@ -31,6 +45,7 @@ contract KipuBankTest is Test {
         assertEq(address(kipuBank).balance, _deposit);
     }
 
+    /// @dev Tests that a user can make multiple deposits and they are correctly aggregated.
     function testMultipleDeposits() public {
         uint256 _deposit1 = 3 ether;
         uint256 _deposit2 = 4 ether;
@@ -47,6 +62,7 @@ contract KipuBankTest is Test {
         assertEq(address(kipuBank).balance, totalDeposit);
     }
 
+    /// @dev Tests that deposits exceeding the bank cap are reverted and valid deposits succeed.
     function testDepositExceedsBankCap() public {
         uint256 _depositExceeded = 12 ether;
         uint256 _depositRight = 2 ether;
@@ -74,6 +90,7 @@ contract KipuBankTest is Test {
         assertEq(address(kipuBank).balance, _depositRight);
     }
 
+    /// @dev Tests successful withdrawal of funds by a user.
     function testWithdrawSuccess() public {
         uint256 _deposit = 2 ether;
         uint256 _withdraw = 1 ether;
@@ -94,6 +111,7 @@ contract KipuBankTest is Test {
         assertEq(user.balance, initialBalance - _deposit + _withdraw);
     }
 
+    /// @dev Tests multiple withdrawals by a user, ensuring each is within the allowed limit.
     function testMultipleWithdrawalsWithinLimit() public {
         uint256 _deposit = 5 ether;
         uint256 _withdraw1 = 1 ether;
@@ -113,6 +131,7 @@ contract KipuBankTest is Test {
         assertEq(user.balance, initialBalance - remainingBalance);
     }
 
+    /// @dev Tests that withdrawal fails when the requested amount exceeds the user's balance.
     function testWithdrawFailsExceedsUserBalance() public {
         uint256 _deposit = 0.5 ether;
         uint256 _withdraw = 1 ether;
@@ -140,6 +159,7 @@ contract KipuBankTest is Test {
         assertEq(user.balance, initialBalance - _deposit);
     }
 
+    /// @dev Tests that withdrawal fails when the requested amount exceeds the allowed per-withdrawal limit.
     function testWithdrawFailsExceedsWithdrawLimit() public {
         uint256 _deposit = 5 ether;
         uint256 _withdraw = 2 ether;
@@ -164,6 +184,7 @@ contract KipuBankTest is Test {
         vm.stopPrank();
     }
 
+    /// @dev Tests that the contract balance reflects the total deposited amount.
     function testContractBalanceCheck() public {
         uint256 _deposit = 3 ether;
 
@@ -178,6 +199,7 @@ contract KipuBankTest is Test {
         assertEq(kipuBank.contractBalance(), _deposit);
     }
 
+    /// @dev Tests the contract's balance after multiple deposits and a withdrawal.
     function testContractBalanceAfterMultipleTransactions() public {
         uint256 _deposit1 = 3 ether;
         uint256 _deposit2 = 2 ether;

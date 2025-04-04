@@ -1,35 +1,18 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+//SPDX-License-Identifier: MIT
+pragma solidity 0.8.26;
 
-import "./DeployHelpers.s.sol";
-import "../contracts/KipuBank.sol";
+import { Script, console } from "forge-std/Script.sol";
+import { KipuBank } from "../contracts/KipuBank.sol";
 
-/**
- * @notice Deploy script for KipuBank contract
- * @dev Inherits ScaffoldETHDeploy which:
- *      - Includes forge-std/Script.sol for deployment
- *      - Includes ScaffoldEthDeployerRunner modifier
- *      - Provides `deployer` variable
- * Example:
- * yarn deploy --file DeployKipuBank.s.sol  # local anvil chain
- * yarn deploy --file DeployKipuBank.s.sol --network optimism # live network (requires keystore)
- */
-contract DeployKipuBank is ScaffoldETHDeploy {
-    /**
-     * @dev Deployer setup based on `ETH_KEYSTORE_ACCOUNT` in `.env`:
-     *      - "scaffold-eth-default": Uses Anvil's account #9 (0xa0Ee7A142d267C1f36714E4a8F75612F20a79720), no password prompt
-     *      - "scaffold-eth-custom": requires password used while creating keystore
-     *
-     * Note: Must use ScaffoldEthDeployerRunner modifier to:
-     *      - Setup correct `deployer` account and fund it
-     *      - Export contract addresses & ABIs to `nextjs` packages
-     */
-    function run() external ScaffoldEthDeployerRunner {
-        KipuBank kipuBank = new KipuBank(deployer, 100 ether);
-        
-        // Store contract address for later verification
-        deployments.push(Deployment("KipuBank", address(kipuBank)));
-        
-        console.log("Deployed KipuBank at:", address(kipuBank));
+contract DeployKipuBank is Script {
+    address public deployer;
+    KipuBank public kipuBank;
+
+    function run() external {
+
+        vm.startBroadcast();
+        kipuBank = new KipuBank(10 ether);
+        console.log("KipuBank deployed at:", address(kipuBank));
+        vm.stopBroadcast();
     }
 }
